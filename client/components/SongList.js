@@ -6,14 +6,15 @@ import query from '../queries/fetchSongs'
 
 class SongList extends Component {
     onSongDelete(id){
-        this.props.mutate({
-            variables: {id}
-        })
+        this.props.mutate( { variables: {id} })
+            .then( () => this.props.data.refetch())
     }
     renderSongs(){
         return this.props.data.songs.map(song => {
             return <li className="collection-item" key={song.id}>
-            {song.title}
+            <Link to={`/songs/${song.id}`}>
+                {song.title}
+            </Link>
             <i className="material-icons"
                 onClick={(event)=> this.onSongDelete(song.id)}
             >delete</i>
